@@ -22,8 +22,11 @@
                             Observation 
                         </th>
                         <th>
-                            Action 
+                            Date
                         </th>
+                        {{-- <th>
+                            Action 
+                        </th> --}}
                     </tr>  
                 </thead>
                 <tbody>  
@@ -43,13 +46,16 @@
                                 <nav>{{ $transaction->observation }}</nav>
                             </td>
                             <td>
-                                <a href="{{ route('transaction.edit', $transaction) }}">Edit</a>
-                                {{-- <a href="{{ route('account.show', $account) }}">View</a> --}}
+                                <nav>{{ $transaction->created_at }}</nav>
+                            </td>
+                            <td>
+                                {{-- <a href="{{ route('transaction.edit', $transaction) }}">Edit</a>
+                                <a href="{{ route('transaction.show', $account) }}">View</a>
                                 <form action="{{ route('transaction.destroy', $transaction) }}" method="post">
                                     @method("DELETE")
                                     @csrf
                                     <button type="submit">Delete</button>
-                                </form>
+                                </form> --}}
                             </td>
                         </tr>
                     @endforeach

@@ -6,12 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\PutRequest;
 use App\Http\Requests\Account\StoreRequest;
 use App\Models\Account;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Http\Request;
+use App\Services\AccountTransacService;
 use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
+    protected $accountTransacService;
+
+    public function __construct(AccountTransacService $accountTransacService)
+    {
+        $this->accountTransacService = $accountTransacService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +24,9 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = Account::where('created_by_id', Auth::user()->nit)->paginate('2');
+        $model = 'App\Models\Account';
+        $accounts = $this->accountTransacService->getByPaginate($model);
+        
         return view('dashboard.account.index', compact('accounts'));
     }
 
@@ -41,22 +48,9 @@ class AccountController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        // dd($request->input());
-        // $validated = $request->validate([
-        //         'idaccount' => ['required', 'string', 'max:18', 'unique:'.Account::class],
-        //         'description' => ['required', 'string', 'max:255'],
-        //         'balance' => ['required', 'max:50'],
-        //         'active' => ['required']
-        //     ]);
-        $account = Account::create([
-            'idaccount' => $request->idaccount,
-            'description' => $request->description,
-            'balance' => $request->balance,
-            'created_by_id' => Auth::user()->nit,
-            'active' => $request->active
-        ]);
-
-        return view('dashboard');
+        $account = $this->accountTransacService->storeAccount($request);
+        
+        return view('dashboard', compact('account'));
     }
 
     /**
@@ -78,9 +72,7 @@ class AccountController extends Controller
      */
     public function edit(Account $account)
     {
-
         return view('dashboard.account.edit', compact('account'));
-        
     }
 
     /**
@@ -92,9 +84,7 @@ class AccountController extends Controller
      */
     public function update(PutRequest $request, Account $account)
     {
-        // dd($account);
         // dd($request->validated());
-
         $account->update($request->validated());
 
         return to_route('account.index'); 
@@ -109,6 +99,7 @@ class AccountController extends Controller
     public function destroy(Account $account)
     {
         $account->delete();
+        
         return to_route('account.index');
     }
 }

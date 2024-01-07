@@ -4,14 +4,14 @@
              {{ __('Account Transaction') }}
          </h2>
     </x-slot>
-    @if ($errors->any())
+    {{-- @if ($errors->any())
         @foreach ($errors->all() as $error)
             <div>
                 {{ $error }}
             </div>
         @endforeach
         
-    @endif
+    @endif --}}
     <div class="py-12">
         <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg space-y-6">
             <form action="{{ route('transaction.store') }}" method="POST">

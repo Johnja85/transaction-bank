@@ -5,15 +5,16 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaction\PutRequest;
 use App\Http\Requests\Transaction\StoreRequest;
-use App\Models\Account;
-use App\Models\Transaction;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use App\Services\AccountTransacService;
 
 class TransacController extends Controller
 {
+    protected $accountTransacService;
+
+    public function __construct(AccountTransacService $accountTransacService)
+    {
+        $this->accountTransacService = $accountTransacService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +22,8 @@ class TransacController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::where('created_by_id', Auth::user()->nit)->paginate('5');
+        $model = 'App\Models\Transaction';
+        $transactions = $this->accountTransacService->getByPaginate($model);
         return view('dashboard.transaction.index', compact('transactions'));
     }
 
@@ -32,7 +34,7 @@ class TransacController extends Controller
      */
     public function create()
     {
-        $accounts = Account::where('created_by_id', Auth::user()->nit)->get();
+        $accounts = $this->accountTransacService->get();
         return view('dashboard.transaction.create', compact('accounts'));
     }
 
@@ -44,21 +46,8 @@ class TransacController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        // Restar al valor de la cuenta
-        Account::where('idaccount', $request->account)->decrement('balance', $request->value);
-
-        // Sumar al valor de la cuenta
-        Account::where('idaccount', $request->destination_account)->increment('balance', $request->value);
-
-        Transaction::create([
-            'account' => $request->account,
-            'destination_account' => $request->destination_account,
-            'value' => $request->value,
-            'observation' => $request->observation,
-            'created_by_id' => Auth::user()->nit
-        ]);
-
-        return to_route('transaction.index');
+        $transaction = $this->accountTransacService->store($request);
+        return to_route('transaction.index', compact('transaction'));
     }
 
     /**
