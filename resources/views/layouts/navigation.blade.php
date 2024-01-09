@@ -15,9 +15,24 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('account.create')" :active="request()->routeIs('account.create')">
-                        {{ __('Create Account') }}
-                    </x-nav-link>
+                    <x-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                <nav>
+                                    {{ __('Create Account') }}
+                                </nav>
+                            </button>    
+                        </x-slot>
+                        <x-slot name="content">
+                            <x-dropdown-link :href="route('account.create')" :active="request()->routeIs('account.create')">
+                                {{ __('Own Accounts') }}
+                            </x-dropdown-link >
+                        
+                            <x-dropdown-link :href="route('third_account.create')">
+                                {{ __('Third-party accounts') }}
+                            </x-dropdown-link >
+                        </x-slot>
+                    </x-dropdown>
                     <x-nav-link :href="route('account.index')" :active="request()->routeIs('account.index')">
                         {{ __('Account Status') }}
                     </x-nav-link>
@@ -28,18 +43,21 @@
                         <x-slot name="trigger">
                             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
 
-                                <x-nav-link :href="route('transaction.create')" :active="request()->routeIs('transaction.create')">
+                                <nav>
                                     {{ __('Bank Transactions') }}
-                                </x-nav-link>
+                                </nav>
+                                {{-- <x-nav-link :href="route('transaction.create')" :active="request()->routeIs('transaction.create')">
+                                    {{ __('Bank Transactions') }}
+                                </x-nav-link> --}}
                             </button>
                         </x-slot>
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('transaction.create')">
-                                {{ __('Own Accounts') }}
+                            <x-dropdown-link :href="route('transaction.create')" :active="request()->routeIs('transaction.create')">
+                                {{ __('Transaction Own Accounts') }}
                             </x-dropdown-link >
                         
                             <x-dropdown-link :href="route('transaction.create')">
-                                {{ __('Third party accounts') }}
+                                {{ __('Transaction Third-party accounts') }}
                             </x-dropdown-link >
                         </x-slot>
                     </x-dropdown>

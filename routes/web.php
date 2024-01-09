@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\AccountController;
+use App\Http\Controllers\Dashboard\ThirdAccountController;
 use App\Http\Controllers\Dashboard\TransacController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,7 @@ Route::group(['prefix' => 'dashboard'],function (){
     })->name('dashboard');
 
     Route::resource('account', AccountController::class);
+    Route::resource('third_account', ThirdAccountController::class);
     Route::resource('transaction', TransacController::class);
 })->middleware(['auth', 'verified']);
 
