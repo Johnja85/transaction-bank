@@ -6,16 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\PutRequest;
 use App\Http\Requests\Account\StoreRequest;
 use App\Models\Account;
+use App\Repositories\AccountRespositoryInterface;
 use App\Services\AccountTransacService;
 use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
     protected $accountTransacService;
+    protected $account;
 
-    public function __construct(AccountTransacService $accountTransacService)
+    public function __construct(AccountTransacService $accountTransacService, AccountRespositoryInterface $account)
     {
         $this->accountTransacService = $accountTransacService;
+        $this->account = $account;
     }
     /**
      * Display a listing of the resource.
@@ -24,8 +27,10 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $model = 'App\Models\Account';
-        $accounts = $this->accountTransacService->getByPaginate($model);
+        // $model = 'App\Models\Account';
+        // $accounts = $this->accountTransacService->getByPaginate($model);
+
+        $accounts = Account::paginate('4');
         
         return view('dashboard.account.index', compact('accounts'));
     }
@@ -48,9 +53,11 @@ class AccountController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $account = $this->accountTransacService->storeAccount($request);
+        $validatedData = $request->validated();
+        $ownAccount = $this->account->store($validatedData);
+        // $account = $this->accountTransacService->storeAccount($request);
         
-        return view('dashboard', compact('account'));
+        return view('dashboard', compact('ownAccount'));
     }
 
     /**

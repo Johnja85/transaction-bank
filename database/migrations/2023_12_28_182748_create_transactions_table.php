@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('observation');
             $table->bigInteger('created_by_id')->unsigned()->nullable();
             $table->foreign('account', 'transactions_idfk_1')->references('idaccount')->on('accounts');
-            $table->foreign('destination_account', 'transactions_idfk_2')->references('idaccount')->on('accounts');
             $table->timestamps();
         });
     }

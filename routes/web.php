@@ -19,7 +19,7 @@ use PHPUnit\TextUI\XmlConfiguration\Group;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 
@@ -36,6 +36,7 @@ Route::group(['prefix' => 'dashboard'],function (){
         return view('dashboard');
     })->name('dashboard');
 
+    Route::get('transaction/third-create', [TransacController::class, 'createThird'])->name('transaction.createThird');
     Route::resource('account', AccountController::class);
     Route::resource('third_account', ThirdAccountController::class);
     Route::resource('transaction', TransacController::class);

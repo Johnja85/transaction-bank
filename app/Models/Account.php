@@ -9,6 +9,9 @@ class Account extends Model
 {
     use HasFactory;
 
+    const ACTIVE = true;
+    const INACTIVE = false;
+
     protected $fillable = [
         'idaccount',
         'description',

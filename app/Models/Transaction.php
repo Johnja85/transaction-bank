@@ -9,13 +9,11 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    // protected $table = 'transactions';
-
     protected $fillable = [
         'account',
         'destination_account',
         'value',
         'observation',
         'created_by_id'
-    ];
+    ];        
 }

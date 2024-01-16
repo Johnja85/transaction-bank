@@ -28,7 +28,7 @@
                                 {{ __('Own Accounts') }}
                             </x-dropdown-link >
                         
-                            <x-dropdown-link :href="route('third_account.create')">
+                            <x-dropdown-link :href="route('third_account.create')" :active="request()->routeIs('account.create')">
                                 {{ __('Third-party accounts') }}
                             </x-dropdown-link >
                         </x-slot>
@@ -56,7 +56,7 @@
                                 {{ __('Transaction Own Accounts') }}
                             </x-dropdown-link >
                         
-                            <x-dropdown-link :href="route('transaction.create')">
+                            <x-dropdown-link :href="route('transaction.createThird')" :active="request()->routeIs('transaction.createThird')">
                                 {{ __('Transaction Third-party accounts') }}
                             </x-dropdown-link >
                         </x-slot>

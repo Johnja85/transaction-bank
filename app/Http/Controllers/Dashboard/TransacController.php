@@ -2,18 +2,26 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\BL\TransactionBl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaction\PutRequest;
 use App\Http\Requests\Transaction\StoreRequest;
+use App\Models\Account;
+use App\Models\Transaction;
 use App\Services\AccountTransacService;
+use Illuminate\Support\Facades\Log;
 
 class TransacController extends Controller
 {
-    protected $accountTransacService;
+    const ACTIVE = 'yes';
+    const INACTIVE = 'no';
 
-    public function __construct(AccountTransacService $accountTransacService)
+    protected $accountService;
+
+    public function __construct(AccountTransacService $accountService)
     {
-        $this->accountTransacService = $accountTransacService;
+        $this->accountService = $accountService;
+
     }
     /**
      * Display a listing of the resource.
@@ -22,8 +30,8 @@ class TransacController extends Controller
      */
     public function index()
     {
-        $model = 'App\Models\Transaction';
-        $transactions = $this->accountTransacService->getByPaginate($model);
+        $transactions = Transaction::paginate('4');
+
         return view('dashboard.transaction.index', compact('transactions'));
     }
 
@@ -34,19 +42,38 @@ class TransacController extends Controller
      */
     public function create()
     {
-        $accounts = $this->accountTransacService->get();
+        $accounts = $this->accountService->getAccount();
+     
         return view('dashboard.transaction.create', compact('accounts'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createThird()
+    {
+        $originAccounts = $this->accountService->getAccount();
+        $thirdsAcounts = $this->accountService->getThirdAccount();
+
+        return view('dashboard.transaction.third.create', ['originAccounts' => $originAccounts, 'thirdsAcounts' => $thirdsAcounts ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param App\Http\Requests\Transaction\StoreRequest $request
+     * 
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRequest $request)
     {
-        $transaction = $this->accountTransacService->store($request);
+        $transactions = new TransactionBl($request);
+        $transaction = $transactions->createTransaction();
+        // $this->transactionBl->setRequest($request);
+        // $transaction = $this->transactionBl->createTransaction();
         return to_route('transaction.index', compact('transaction'));
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Third_account\StoreRequest;
+use App\Models\Third_account;
 use App\Repositories\AccountRespositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -11,11 +12,6 @@ use Illuminate\Support\Facades\Log;
 class ThirdAccountController extends Controller
 {
     protected $account;
-
-    // public function __construct(AccountTransacServiceService $thirdAccountTransacService)
-    // {
-    //     $this->thirdAccountTransacService = $thirdAccountTransacService;
-    // }
 
     public function __construct(AccountRespositoryInterface $account){
         $this->account = $account;
@@ -27,7 +23,10 @@ class ThirdAccountController extends Controller
      */
     public function index()
     {
-        
+      $thirdAcount = Third_account::where('active',Third_account::ACTIVE);
+
+      return view('dashboard.third_account.index', compact('thirdAcount'));
+
     }
 
     /**
@@ -48,11 +47,9 @@ class ThirdAccountController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $validatedData = $request->validated();
-        $thirdAccount = $this->account->store($validatedData);
+        $thirdAccount = $this->account->store($request->validated());
 
         return view('dashboard', compact('thirdAccount')); 
-        
     }
 
     /**
