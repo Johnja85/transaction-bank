@@ -9,14 +9,13 @@ class Account extends Model
 {
     use HasFactory;
 
-    const ACTIVE = true;
-    const INACTIVE = false;
+    const IS_ACTIVE = true;
 
     protected $fillable = [
         'idaccount',
         'description',
         'balance',
         'created_by_id',
-        'active'
+        'is_active'
     ];
 }

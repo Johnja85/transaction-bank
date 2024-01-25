@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Account;
-use App\Models\Third_account;
+use App\Models\ThirdAccount;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -14,10 +14,10 @@ class AccountTransacService
     const INACTIVE = 'yes';
 
     protected Account $account;
-    protected Third_account $thirdAccount;
+    protected ThirdAccount $thirdAccount;
     protected Transaction $transactions;
 
-    public function __construct(Account $account, Third_account $thirdAccount, Transaction $transactions)
+    public function __construct(Account $account, ThirdAccount $thirdAccount, Transaction $transactions)
     {
         $this->account = $account;
         $this->thirdAccount = $thirdAccount;

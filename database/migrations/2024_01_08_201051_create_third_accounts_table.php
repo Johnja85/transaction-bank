@@ -17,9 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('idaccount',18);
             $table->string('description',255);
+            $table->integer('balance')->nullable();
             $table->string('name_third',255);
             $table->integer('created_by_id');
-            $table->enum('active', ['yes','no']);
+            $table->boolean('is_active', true);
             $table->foreign('created_by_id', 'third_accounts_idfk_1')->references('nit')->on('users');
             $table->timestamps();
         });

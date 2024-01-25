@@ -5,20 +5,17 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\PutRequest;
 use App\Http\Requests\Account\StoreRequest;
+use App\MethodFactory\Accounts\Factory\FactoryOwnAccount;
 use App\Models\Account;
-use App\Repositories\AccountRespositoryInterface;
-use App\Services\AccountTransacService;
-use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
-    protected $accountTransacService;
     protected $account;
+    protected $ownAccount;
 
-    public function __construct(AccountTransacService $accountTransacService, AccountRespositoryInterface $account)
+    public function __construct(FactoryOwnAccount $ownAccount)
     {
-        $this->accountTransacService = $accountTransacService;
-        $this->account = $account;
+        $this->ownAccount = $ownAccount;
     }
     /**
      * Display a listing of the resource.
@@ -27,9 +24,6 @@ class AccountController extends Controller
      */
     public function index()
     {
-        // $model = 'App\Models\Account';
-        // $accounts = $this->accountTransacService->getByPaginate($model);
-
         $accounts = Account::paginate('4');
         
         return view('dashboard.account.index', compact('accounts'));
@@ -53,9 +47,7 @@ class AccountController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $validatedData = $request->validated();
-        $ownAccount = $this->account->store($validatedData);
-        // $account = $this->accountTransacService->storeAccount($request);
+        $ownAccount = $this->ownAccount->createAccount($request->validated());
         
         return view('dashboard', compact('ownAccount'));
     }

@@ -4,17 +4,20 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Third_account\StoreRequest;
-use App\Models\Third_account;
+use App\MethodFactory\Accounts\Factory\FactoryThirdAccount;
+use App\Models\ThirdAccount;
 use App\Repositories\AccountRespositoryInterface;
+use App\Services\AccountsFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ThirdAccountController extends Controller
 {
     protected $account;
+    protected $thirdAccount;
 
-    public function __construct(AccountRespositoryInterface $account){
-        $this->account = $account;
+    public function __construct(FactoryThirdAccount $thirdAccount){
+        $this->thirdAccount = $thirdAccount;
     }
     /**
      * Display a listing of the resource.
@@ -23,7 +26,7 @@ class ThirdAccountController extends Controller
      */
     public function index()
     {
-      $thirdAcount = Third_account::where('active',Third_account::ACTIVE);
+      $thirdAcount = ThirdAccount::where('active',ThirdAccount::ACTIVE);
 
       return view('dashboard.third_account.index', compact('thirdAcount'));
 
@@ -47,7 +50,7 @@ class ThirdAccountController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $thirdAccount = $this->account->store($request->validated());
+        $thirdAccount = $this->thirdAccount->createAccount($request->validated());
 
         return view('dashboard', compact('thirdAccount')); 
     }

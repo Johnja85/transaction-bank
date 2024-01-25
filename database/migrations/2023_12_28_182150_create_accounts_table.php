@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('description',255);
             $table->integer('balance');
             $table->integer('created_by_id');
-            $table->enum('active', ['yes','no']);
+            $table->boolean('is_active', true);
             $table->foreign('created_by_id', 'accounts_idfk_1')->references('nit')->on('users');
             $table->timestamps();
         });

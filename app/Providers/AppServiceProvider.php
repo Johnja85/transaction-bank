@@ -2,11 +2,10 @@
 
 namespace App\Providers;
 
+use App\MethodFactory\Accounts\Factory\FactoryOwnAccount;
+use App\MethodFactory\Accounts\Factory\FactoryThirdAccount;
+use App\MethodFactory\Accounts\Intefaces\FactoryAccountInterface;
 use App\Models\Account;
-use App\Repositories\AccountRepository;
-use App\Repositories\AccountRespositoryInterface;
-use App\Repositories\ThirdAccountRepository;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,7 +18,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(AccountRespositoryInterface::class, ThirdAccountRepository::class);
+        // $this->app->bind(FactoryAccountInterface::class, FactoryThirdAccount::class);
+        // $this->app->bind(FactoryAccountInterface::class, FactoryOwnAccount::class);
     }
 
     /**

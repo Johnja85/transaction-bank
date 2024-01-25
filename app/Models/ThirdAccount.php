@@ -5,18 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Third_account extends Model
+class ThirdAccount extends Model
 {
     use HasFactory;
 
     const ACTIVE = true;
     const INACTIVE = false;
 
+    protected $table = "third_accounts";
+    
     protected $fillable = [
         'idaccount',
         'description',
         'name_third',
         'created_by_id',
-        'active'
+        'is_active'
     ];
 }
