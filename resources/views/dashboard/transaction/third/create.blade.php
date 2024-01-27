@@ -49,6 +49,9 @@
                     <input class="field left" type="text" name="observation" value={{ old('observation', '') }}>
                     <x-input-error :messages="$errors->get('observation')" class="mt-2 " />
                 </div>
+                <div>
+                    <input class="form-group hidden" type="text" name="type" value='third'>
+                </div>
                 <button type="submit">Transfer</button>
             </form>
         </div>

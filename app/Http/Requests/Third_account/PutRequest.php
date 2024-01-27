@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Third_account;
 
-use App\Models\Account;
+use App\Models\ThirdAccount;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class PutRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,8 @@ class StoreRequest extends FormRequest
         return [
             'idaccount' => ['required', 'string', 'max:18'],
             'description' => ['required', 'string', 'max:255'],
-            'name_third' => ['required', 'max:50']
+            'name_third' => ['required', 'max:50'],
+            'is_active' => ['required']
         ];
     }
 }

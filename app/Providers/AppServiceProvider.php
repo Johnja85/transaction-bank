@@ -18,8 +18,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // $this->app->bind(FactoryAccountInterface::class, FactoryThirdAccount::class);
-        // $this->app->bind(FactoryAccountInterface::class, FactoryOwnAccount::class);
     }
 
     /**

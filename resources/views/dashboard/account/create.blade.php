@@ -34,13 +34,13 @@
                     <x-input-error :messages="$errors->get('balance')" class="mt-2 " />
                 </div>
 
-                <div>
+                {{-- <div>
                     <label for="">Active</label>
                     <select name="active">
                         <option {{ old('active', '') == 'yes' ? 'selected' : '' }} value="yes">Yes</option>
                         <option {{ old('active', '') == 'no' ? 'selected' : '' }} value="no">Not</option>
                     </select>
-                </div>
+                </div> --}}
 
                 <button type="submit">Create</button>
             </form>

@@ -37,10 +37,10 @@
                 </div>
 
                 <div>
-                    <label for="">Active</label>
-                    <select name="active">
-                        <option {{ $account->active == 'yes' ? 'selected' : ''}} value="yes">yes</option>
-                        <option {{ $account->active == 'no' ? 'selected' : ''}} value="no">not</option>
+                    <label for="is_active">Active</label>
+                    <select name="is_active">
+                        <option value= "1" {{ $account->is_active == true ? 'selected' : ''}} >True</option>
+                        <option value="0" {{ $account->is_active == false ? 'selected' : ''}} >False</option>
                     </select>
                 </div>
 

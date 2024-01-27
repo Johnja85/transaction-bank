@@ -27,8 +27,7 @@ class StoreRequest extends FormRequest
         return [
             'idaccount' => ['required', 'string', 'max:18', 'unique:'.Account::class],
             'description' => ['required', 'string', 'max:255'],
-            'balance' => ['required', 'max:50'],
-            'active' => ['required']
+            'balance' => ['required', 'max:50']
         ];
     }
 }

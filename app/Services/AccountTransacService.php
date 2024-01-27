@@ -49,7 +49,7 @@ class AccountTransacService
                 'description' => $request->description,
                 'balance' => $request->balance,
                 'created_by_id' => Auth::user()->nit,
-                'active' => $request->active
+                'is_active' => $request->is_active
             ]);
     
             return true;
@@ -66,7 +66,7 @@ class AccountTransacService
     {
         return $this->account
             ->where('created_by_id', Auth::user()->nit)
-            ->where('active', static::ACTIVE)
+            ->where('is_active', static::ACTIVE)
             ->get();
     }
 
@@ -74,7 +74,7 @@ class AccountTransacService
     {
         return $this->thirdAccount
             ->where('created_by_id', Auth::user()->nit)
-            ->where('active', static::ACTIVE)
+            ->where('is_active', static::ACTIVE)
             ->get();
     }
 

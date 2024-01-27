@@ -6,10 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Third_account\StoreRequest;
 use App\MethodFactory\Accounts\Factory\FactoryThirdAccount;
 use App\Models\ThirdAccount;
-use App\Repositories\AccountRespositoryInterface;
-use App\Services\AccountsFactory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ThirdAccountController extends Controller
 {
@@ -26,10 +23,9 @@ class ThirdAccountController extends Controller
      */
     public function index()
     {
-      $thirdAcount = ThirdAccount::where('active',ThirdAccount::ACTIVE);
+        $thirdAcount = $this->thirdAccount->get();
 
-      return view('dashboard.third_account.index', compact('thirdAcount'));
-
+        return view('dashboard.third_account.index', compact('thirdAcount'));
     }
 
     /**
@@ -50,7 +46,7 @@ class ThirdAccountController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $thirdAccount = $this->thirdAccount->createAccount($request->validated());
+        $thirdAccount = $this->thirdAccount->create($request->validated());
 
         return view('dashboard', compact('thirdAccount')); 
     }

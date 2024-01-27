@@ -6,21 +6,28 @@ use App\BL\TransactionBl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaction\PutRequest;
 use App\Http\Requests\Transaction\StoreRequest;
-use App\Models\Account;
-use App\Models\Transaction;
+use App\MethodFactory\Accounts\Factory\FactoryOwnAccount;
+use App\MethodFactory\Accounts\Factory\FactoryThirdAccount;
+use App\MethodFactory\Accounts\Factory\FactoryTransactionAccount;
 use App\Services\AccountTransacService;
 use Illuminate\Support\Facades\Log;
 
 class TransacController extends Controller
 {
-    const ACTIVE = 'yes';
-    const INACTIVE = 'no';
+    const IS_ACTIVE = true;
 
     protected $accountService;
+    protected $transaction;
+    protected $ownAccounts;
+    protected $thirdAccount;
 
-    public function __construct(AccountTransacService $accountService)
+    public function __construct(AccountTransacService $accountService, FactoryTransactionAccount $transaction, FactoryOwnAccount $ownAccounts, FactoryThirdAccount $thirdAccount)
     {
         $this->accountService = $accountService;
+        $this->transaction = $transaction;
+        $this->ownAccounts = $ownAccounts;
+        $this->thirdAccount = $thirdAccount;
+        
 
     }
     /**
@@ -30,7 +37,7 @@ class TransacController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::paginate('4');
+        $transactions = $this->transaction->get();
 
         return view('dashboard.transaction.index', compact('transactions'));
     }
@@ -42,7 +49,7 @@ class TransacController extends Controller
      */
     public function create()
     {
-        $accounts = $this->accountService->getAccount();
+        $accounts = $this->ownAccounts->get();
      
         return view('dashboard.transaction.create', compact('accounts'));
     }
@@ -54,8 +61,8 @@ class TransacController extends Controller
      */
     public function createThird()
     {
-        $originAccounts = $this->accountService->getAccount();
-        $thirdsAcounts = $this->accountService->getThirdAccount();
+        $originAccounts = $this->ownAccounts->get();
+        $thirdsAcounts = $this->thirdAccount->get();
 
         return view('dashboard.transaction.third.create', ['originAccounts' => $originAccounts, 'thirdsAcounts' => $thirdsAcounts ]);
     }
@@ -70,11 +77,12 @@ class TransacController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $transactions = new TransactionBl($request);
-        $transaction = $transactions->createTransaction();
-        // $this->transactionBl->setRequest($request);
-        // $transaction = $this->transactionBl->createTransaction();
-        return to_route('transaction.index', compact('transaction'));
+        // dd($request->validated());
+
+        $this->transaction->create($request->validated());
+        $transactions = $this->transaction->get();
+        
+        return to_route('transaction.index', compact('transactions'));
     }
 
     /**

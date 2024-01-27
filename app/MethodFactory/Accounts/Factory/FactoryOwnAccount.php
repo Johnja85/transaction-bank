@@ -7,17 +7,20 @@ use App\MethodFactory\Accounts\OwnAccount;
 
 class FactoryOwnAccount implements FactoryAccountInterface
 {
-    public static function createAccount(array $data)
+    private $ownAccount;
+    
+    public function __construct(OwnAccount $ownAccount)
     {
-        $ownAccount = new OwnAccount();
-
-        return $ownAccount->createAccount($data);
+        $this->ownAccount = $ownAccount;
     }
 
-    // public static function transaction():void
-    // {
-    //     // TODO: Implement block() method.
-    // }
+    public function create(array $data)
+    {
+        return $this->ownAccount->create($data);
+    }
 
-
+    public function get()
+    {
+        return $this->ownAccount->get();
+    }
 }

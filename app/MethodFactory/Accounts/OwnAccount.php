@@ -8,16 +8,28 @@ use Illuminate\Support\Facades\Auth;
 
 class OwnAccount implements AccountInterface
 {
-    public static function createAccount(array $data)
+    private ModelsAccount $account;
+
+    public function __construct()
+    {
+        $this->account = new ModelsAccount();
+    }
+
+    public function create(array $data)
     {
 
-        return ModelsAccount::create([
+        return $this->account->create([
             'idaccount' => $data['idaccount'],
             'description' => $data['description'],
             'balance' => $data['balance'],
             'created_by_id' => Auth::user()->nit,
-            'is_active' => $data['active'],
+            'is_active' => true,
         ]);
+    }
+
+    public function get()
+    {
+        return $this->account->where('created_by_id', Auth::user()->nit)->paginate('4');
     }
 
     public static function transaction(): void

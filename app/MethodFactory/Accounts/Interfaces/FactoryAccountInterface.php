@@ -5,6 +5,7 @@ namespace App\MethodFactory\Accounts\Interfaces;
 
 interface FactoryAccountInterface
 {
-   public static function createAccount(array $data);
-   
+   public function create(array $data);
+
+   public function get();   
 }

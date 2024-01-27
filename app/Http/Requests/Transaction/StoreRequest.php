@@ -27,7 +27,8 @@ class StoreRequest extends FormRequest
             'account' => ['required', 'max:18'],
             'destination_account' => ['required', 'max:18', 'different:account'],
             'value' => ['required', 'numeric','min:0.01', 'no_greater_than_bd:account'],
-            'observation' => ['required', 'string', 'max:50']
+            'observation' => ['required', 'string', 'max:50'],
+            'type' => ['required']
         ];
     }
 

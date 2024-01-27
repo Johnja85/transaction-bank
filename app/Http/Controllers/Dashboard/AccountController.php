@@ -7,6 +7,7 @@ use App\Http\Requests\Account\PutRequest;
 use App\Http\Requests\Account\StoreRequest;
 use App\MethodFactory\Accounts\Factory\FactoryOwnAccount;
 use App\Models\Account;
+use Illuminate\Support\Facades\Log;
 
 class AccountController extends Controller
 {
@@ -24,7 +25,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = Account::paginate('4');
+        $accounts = $this->ownAccount->get();        
         
         return view('dashboard.account.index', compact('accounts'));
     }
@@ -47,7 +48,7 @@ class AccountController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $ownAccount = $this->ownAccount->createAccount($request->validated());
+        $ownAccount = $this->ownAccount->create($request->validated());
         
         return view('dashboard', compact('ownAccount'));
     }
@@ -83,7 +84,6 @@ class AccountController extends Controller
      */
     public function update(PutRequest $request, Account $account)
     {
-        // dd($request->validated());
         $account->update($request->validated());
 
         return to_route('account.index'); 

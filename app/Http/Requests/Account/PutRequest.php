@@ -28,7 +28,7 @@ class PutRequest extends FormRequest
             'idaccount' => ['required', 'string', 'max:18'],
             'description' => ['required', 'string', 'max:255'],
             'balance' => ['required', 'max:50'],
-            'active' => ['required']
+            'is_active' => ['required']
         ];
     }
 }

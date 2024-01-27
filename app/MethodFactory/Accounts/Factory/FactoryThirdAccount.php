@@ -8,18 +8,20 @@ use App\MethodFactory\Accounts\ThirdAccount;
 
 class FactoryThirdAccount implements FactoryAccountInterface
 {
+    private $thirdAccount;
 
-    public static function createAccount(array $data)
+    public function __construct(ThirdAccount $thirdAccount)
     {
-        $thirdAccount = new ThirdAccount();
-
-        return $thirdAccount->createAccount($data);
+        $this->thirdAccount = $thirdAccount;
     }
 
-    // public static function transaction():void
-    // {
-        
-    // }
+    public function create(array $data)
+    {
+        return $this->thirdAccount->create($data);
+    }
 
-
+    public function get()
+    {
+        return $this->thirdAccount->get();
+    }
 }

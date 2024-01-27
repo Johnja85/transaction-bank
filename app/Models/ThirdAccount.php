@@ -17,6 +17,7 @@ class ThirdAccount extends Model
     protected $fillable = [
         'idaccount',
         'description',
+        'balance',
         'name_third',
         'created_by_id',
         'is_active'

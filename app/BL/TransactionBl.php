@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Transaction;
 use App\Http\Requests\Transaction\StoreRequest;
 use App\Models\Third_account;
+use App\Models\ThirdAccount;
 use Illuminate\Support\Facades\Auth;
 
 class TransactionBl
@@ -14,7 +15,7 @@ class TransactionBl
 
     protected Account $accountOrigin;
 
-    protected Third_account $accountDestination;
+    protected ThirdAccount $accountDestination;
 
     protected StoreRequest $request;
 
@@ -22,7 +23,7 @@ class TransactionBl
     {
         $this->request = $request;
         $this->accountOrigin = Account::where('idaccount', $this->request->account)->first();
-        $this->accountDestination = Third_account::where('idaccount', $this->request->destination_account)->first();
+        $this->accountDestination = ThirdAccount::where('idaccount', $this->request->destination_account)->first();
         $this->transaction = new Transaction();    
     }
 

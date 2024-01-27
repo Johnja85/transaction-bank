@@ -50,7 +50,7 @@
                                 <nav>{{ $account->balance }}</nav>
                             </td>
                             <td>
-                                <nav>{{ $account->active }}</nav>
+                                <nav>{{ $account->is_active }}</nav>
                             </td>
                             <td>
                                 <a href="{{ route('account.edit', $account) }}">Edit</a>
